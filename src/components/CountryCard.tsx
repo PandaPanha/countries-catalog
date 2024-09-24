@@ -20,13 +20,13 @@ const CountryCard = ({ country, onClick }: CountryCardProps) => {
       className="flex flex-col w-full rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 text-left cursor-pointer"
     >
       <div className="flex-grow">
-        <div className="flex items-center">
+        <div className="flex flex-col sm:flex-row sm:items-center">
           <img
             src={country.flags.png}
             alt={country.flags.alt}
-            className="w-[200px] h-[150px] mr-4 object-cover"
+            className="w-full sm:w-[200px] h-[150px] sm:mr-4 object-cover"
           />
-          <div>
+          <div className="p-3 sm:p-0">
             <h3 className="text-lg font-semibold line-clamp-1">
               {country.name.official}
             </h3>
