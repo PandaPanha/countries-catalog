@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Fuse from "fuse.js"; // Importing Fuse.js for fuzzy search
+import Fuse from "fuse.js";
 import { CountryDto } from "../types/country.dto";
 import Button from "./Button";
+import useModal from "@/hooks/useModal";
+import CountryCard from "./CountryCard";
 
 interface CountryCatalogProps {
   data: CountryDto[];
@@ -9,6 +11,7 @@ interface CountryCatalogProps {
 }
 
 function CountryCatalog({ data, rowsPerPage = 12 }: CountryCatalogProps) {
+  const { showModal, setData } = useModal();
   const [filteredCountries, setFilteredData] = useState<CountryDto[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [offset, setOffset] = useState<number>(0);
@@ -57,10 +60,14 @@ function CountryCatalog({ data, rowsPerPage = 12 }: CountryCatalogProps) {
     setIsSortedAsc((prev) => !prev);
   };
 
+  const handleCountryCardClick = (country: CountryDto) => {
+    setData(country);
+    showModal(true);
+  };
+
   return (
     <div className="relative p-4">
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-3">
-        
         <input
           type="text"
           placeholder="Search by Official Name"
@@ -76,7 +83,9 @@ function CountryCatalog({ data, rowsPerPage = 12 }: CountryCatalogProps) {
           Sort {isSortedAsc ? "DESC" : "ASC"}
         </Button>
         <div className="flex justify-end gap-4 items-center">
-          <p className="text-nowrap">Total counties: {totalLength}</p>
+          <p className="text-nowrap">{`${
+            offset + rowsPerPage
+          }/${totalLength}`}</p>
           <Button
             variants="outline"
             onClick={handlePrevClick}
@@ -93,38 +102,13 @@ function CountryCatalog({ data, rowsPerPage = 12 }: CountryCatalogProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {filteredCountries.map((row, index) => (
-          <div
+      <div className="flex flex-col gap-4">
+        {filteredCountries.map((country, index) => (
+          <CountryCard
             key={index}
-            className="border rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 text-left"
-          >
-            <img
-              src={row.flags.png}
-              alt={row.flags.alt}
-              className="w-full h-32 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">{row.name.official}</h3>
-              <p className="text-gray-600">CCA2: {row.cca2}</p>
-              <p className="text-gray-600">CCA3: {row.cca3}</p>
-              <p className="text-gray-600">
-                Native Names:{" "}
-                {Object.entries(row.name?.nativeName || {})
-                  .map(([_, name]) => name?.official)
-                  .join(", ")}
-              </p>
-              <p className="text-gray-600">
-                Alt Spellings: {row.altSpellings.join(", ")}
-              </p>
-              <p className="text-gray-600">IDD: {row.idd?.root?.concat(row.idd?.suffixes[0])}</p>
-              <div className="text-center mt-4">
-                <Button variants="outline" className="rounded-full py-1">
-                  View
-                </Button>
-              </div>
-            </div>
-          </div>
+            country={country}
+            onClick={handleCountryCardClick}
+          />
         ))}
       </div>
     </div>

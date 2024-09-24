@@ -13,6 +13,7 @@ export interface CountryDto {
   capital: string[];
   altSpellings: string[];
   region: string;
+  subregion?: string;
   languages: Languages;
   translations: Translations;
   latlng: [number, number];
@@ -34,11 +35,11 @@ export interface CountryDto {
 export interface Name {
   common: string;
   official: string;
-  nativeName: any;
+  nativeName: NativeName;
 }
 
 export interface NativeName {
-  eng: NativeNameDetail;
+  [code: string]: NativeNameDetail;
 }
 
 export interface NativeNameDetail {
@@ -47,7 +48,7 @@ export interface NativeNameDetail {
 }
 
 export interface Currencies {
-  SHP: CurrencyDetail;
+  [code: string]: CurrencyDetail
 }
 
 export interface CurrencyDetail {
@@ -61,7 +62,7 @@ export interface Idd {
 }
 
 export interface Languages {
-  eng: string;
+  [code: string]: string;
 }
 
 export interface Translations {

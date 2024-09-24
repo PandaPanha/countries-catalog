@@ -1,22 +1,18 @@
-import './App.css';
-import CountryCatalog from './components/CountryCatalog';
-import { useGetCountries } from './hooks/useGetCountries';
+import "./App.css";
+import CountryCatalogs from "./components/CountryCatalogs";
+
+import { useGetCountries } from "./hooks/useGetCountries";
 function App() {
-  const {data: countries, error, loading} = useGetCountries()
-  
-  if(error){
-    throw new Error(error)
+  const { data: countries, error } = useGetCountries();
+
+  if (error) {
+    throw new Error(error);
   }
 
   return (
-    <>
-      <div>
-        <CountryCatalog
-          data={countries ?? []} 
-          rowsPerPage={25}
-        />
-      </div>
-    </>
+    <div>
+      <CountryCatalogs data={countries ?? []} rowsPerPage={25} />
+    </div>
   );
 }
 
