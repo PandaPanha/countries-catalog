@@ -1,5 +1,5 @@
 export const API = {
   COUNTRY:{
-    ALL:`${import.meta.env.VITE_API_URL}/all`
+    ALL:`https://restcountries.com/v3.1/all`
   }
 }
