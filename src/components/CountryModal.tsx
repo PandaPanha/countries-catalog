@@ -1,6 +1,7 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import useModal from "@/hooks/useModal";
 import { CountryDto } from "@/types/country.dto";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const CountryModal = () => {
   const { isOpen, showModal, data } = useModal();
@@ -23,6 +24,9 @@ const CountryModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => showModal(open)}>
       <DialogContent className="flex flex-col space-y-4 px-4 py-8">
+        <DialogHeader >
+          <DialogTitle className="text-center font-bold text-slate-600 text-4xl">{country.name.official}</DialogTitle>
+        </DialogHeader>
         <div className="flex items-center">
           <img
             src={country.flags.png}
@@ -30,7 +34,6 @@ const CountryModal = () => {
             className="w-24 h-24 rounded-full object-cover mr-4"
           />
           <div>
-            <h2 className="text-2xl font-semibold">{country.name.official}</h2>
             <p className="text-gray-600">
               <span className="font-semibold">Capital: </span> {capital}
             </p>
