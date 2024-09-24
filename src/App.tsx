@@ -1,5 +1,6 @@
 import "./App.css";
 import CountryCatalogs from "./components/CountryCatalogs";
+import Developer from "./components/Developer";
 
 import { useGetCountries } from "./hooks/useGetCountries";
 function App() {
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <div>
+      <Developer/>
       <CountryCatalogs data={countries ?? []} rowsPerPage={25} />
     </div>
   );
