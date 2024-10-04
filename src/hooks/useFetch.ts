@@ -40,7 +40,7 @@ function useFetch<T = unknown>(url: string, options?: RequestInit): UseFetchResu
     return () => {
       controller.abort();
     };
-  }, [options, url]);
+  }, [url]);
 
   const refetch = useCallback(() => {
     fetchData(); 
